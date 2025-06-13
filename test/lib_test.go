@@ -2,6 +2,8 @@ package test
 
 import (
 	"fmt"
+	"gotool"
+	"php2go"
 	"testing"
 )
 
@@ -11,7 +13,7 @@ func init() {
 
 func TestLib(t *testing.T) {
 	gotool.InitConfig("../configs/", "development")
-	nacosAddr := php2go.Cfg("app").GetString("nacos.addr")
+	nacosAddr := gotool.Cfg("app").GetString("nacos.addr")
 	php2go.Pr(nacosAddr)
 	return
 }
