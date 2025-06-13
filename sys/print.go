@@ -1,4 +1,4 @@
-package gotool
+package sys
 
 import (
 	"encoding/json"

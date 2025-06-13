@@ -2,15 +2,19 @@ port    = 80
 allow_origins = "*"
 log_path = "/tmp/logs/php2go/"
 service_name = "php2go"
+default_db = "db-scrm"
+default_redis = "redis-scrm"
+default_es = "es-scrm"
 [nacos]
 namespace_id            = ""
-addr                    = "nacos.scrm.beta.techzgzb.cn"
+addr                    = "nacos.scrm.beta.**.cn"
 scheme                  = "http"
-port                    = "80"
-username                = "zhuyuye"
-password                = "zhuyuye"
+port                    = 80
+username                = "**"
+password                = "**"
 timeout                 = 5000
 cache_dir               = "/tmp/nacos/cache"
+log_dir                 = "/tmp/logs/php2go"
 #接入的 Nacos命名格式：data id:group
 defaultDataId           = "go-weixin-work"
-group_data_ids          = ["go-weixin-work:go-weixin-work","gww-crack:gww-crack","dingding-config:go-weixin-work","wecom-manage.toml:gww-manage","database.toml:database"]
+group_data_ids          = ["go-weixin-work:go-weixin-work","database.toml:database"]

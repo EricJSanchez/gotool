@@ -1,4 +1,4 @@
-package env
+package environment
 
 const (
 	// Development is the development environment, which is also the default

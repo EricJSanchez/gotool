@@ -1,7 +1,8 @@
-package gotool
+package sys
 
 import (
 	"fmt"
+	"gotool/pkg/environment"
 	"os"
 	"sync"
 )
@@ -25,10 +26,10 @@ func InitConfig(configPath ...string) {
 	}
 }
 
-func (c *configuration) getConfigFile(file, env env) string {
+func (c *configuration) getConfigFile(file string, env environment.Env) string {
 	configFile := ""
 	for _, path := range c.paths {
-		tmpConfigFile := fmt.Sprintf("%s/%s/%s.toml", path, file)
+		tmpConfigFile := fmt.Sprintf("%s/%s/%s.toml", path, env, file)
 		if _, err := os.Stat(tmpConfigFile); err == nil {
 			configFile = tmpConfigFile
 			break
@@ -45,7 +46,7 @@ func Cfg(file string) *viper.Viper {
 	defer config.Unlock()
 	// 读取基础配置
 	baseConfig := viper.New()
-	baseConfigFile := config.getConfigFile(file)
+	baseConfigFile := config.getConfigFile(file, Env())
 	baseConfig.SetConfigFile(baseConfigFile)
 	err := baseConfig.ReadInConfig()
 	if err != nil {
@@ -57,7 +58,7 @@ func Cfg(file string) *viper.Viper {
 	for k, v := range baseConfig.AllSettings() {
 		envConfig.SetDefault(k, v)
 	}
-	envConfigFile := config.getConfigFile(file)
+	envConfigFile := config.getConfigFile(file, Env())
 	if envConfigFile != "" {
 		envConfig.SetConfigFile(envConfigFile)
 		err = envConfig.ReadInConfig()

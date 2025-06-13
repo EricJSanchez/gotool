@@ -11,13 +11,12 @@ import (
 	"github.com/nacos-group/nacos-sdk-go/vo"
 	"github.com/spf13/cast"
 	"github.com/spf13/viper"
-	"gotool"
+	"gotool/sys"
 	"log"
 	"net"
 	"strconv"
 	"strings"
 	"sync"
-	"time"
 )
 
 var onceNacos sync.Once
@@ -32,9 +31,9 @@ func (n *Nacos) InitClient(config map[string]interface{}) error {
 	onceNacos.Do(func() {
 		clientConfig := *constant.NewClientConfig(
 			constant.WithNamespaceId(config["namespace_id"].(string)),
-			constant.WithTimeoutMs(uint64(config["timeout"].(uint64))),
+			constant.WithTimeoutMs(uint64(config["timeout"].(int64))),
 			constant.WithNotLoadCacheAtStart(true),
-			constant.WithLogDir(config["log_path"].(string)),
+			constant.WithLogDir(config["log_dir"].(string)),
 			constant.WithCacheDir(config["cache_dir"].(string)),
 			constant.WithUsername(config["username"].(string)),
 			constant.WithPassword(config["password"].(string)),
@@ -43,7 +42,7 @@ func (n *Nacos) InitClient(config map[string]interface{}) error {
 			{
 				IpAddr:      config["addr"].(string),
 				ContextPath: "/nacos",
-				Port:        uint64(config["port"].(uint64)),
+				Port:        uint64(config["port"].(int64)),
 				Scheme:      config["scheme"].(string),
 			},
 		}
@@ -60,8 +59,8 @@ func (n *Nacos) InitClient(config map[string]interface{}) error {
 		}
 
 		// 下面开始初始化配置文件监听，根据data_id和group
-		ns := config["group_data_ids"].([]string)
-		gotool.NacosConfig = make(map[string]string, len(ns))
+		ns := cast.ToStringSlice(config["group_data_ids"].([]interface{}))
+		sys.NacosConfig = make(map[string]string, len(ns))
 		n.ConfigClient = make(map[string]config_client.IConfigClient, len(ns))
 		for _, nv := range ns {
 			tmpConf := strings.Split(nv, ":")
@@ -88,7 +87,7 @@ func (n *Nacos) InitClient(config map[string]interface{}) error {
 // NewInitConfig 初始化配置文件监听
 func (n *Nacos) NewInitConfig(dataId, group string) {
 	var err error
-	if gotool.NacosConfig[dataId], err = n.ConfigClient[dataId].GetConfig(vo.ConfigParam{
+	if sys.NacosConfig[dataId], err = n.ConfigClient[dataId].GetConfig(vo.ConfigParam{
 		DataId: dataId,
 		Group:  group,
 	}); err != nil {
@@ -102,8 +101,8 @@ func (n *Nacos) NewInitConfig(dataId, group string) {
 		OnChange: func(namespace, group, dataId, data string) {
 			//nacos变更,更新本地
 			fmt.Println(dataId+" nacos changed:", data)
-			gotool.ResetCfgKey(dataId)
-			gotool.NacosConfig[dataId] = data
+			sys.ResetCfgKey(dataId)
+			sys.NacosConfig[dataId] = data
 		},
 	})
 	if err != nil {
@@ -139,8 +138,8 @@ func (n *Nacos) Register() {
 	}
 	if _, err = n.NamingClient.RegisterInstance(vo.RegisterInstanceParam{
 		Ip:          ip,
-		Port:        uint64(gotool.Cfg("app").GetInt("port")),
-		ServiceName: gotool.Cfg("app").GetString("service_name"),
+		Port:        uint64(sys.Cfg("app").GetInt("port")),
+		ServiceName: sys.Cfg("app").GetString("service_name"),
 		Weight:      10,
 		Enable:      true,
 		Healthy:     true,
@@ -162,8 +161,8 @@ func (n *Nacos) DeRegister() {
 	}
 	if _, err = n.NamingClient.DeregisterInstance(vo.DeregisterInstanceParam{
 		Ip:          ip,
-		Port:        uint64(gotool.Cfg("app").GetInt("port")),
-		ServiceName: gotool.Cfg("app").GetString("service_name"),
+		Port:        uint64(sys.Cfg("app").GetInt("port")),
+		ServiceName: sys.Cfg("app").GetString("service_name"),
 		Ephemeral:   true,
 	}); err != nil {
 		return
@@ -195,13 +194,4 @@ func (n Nacos) GetViper(data string, ty string) (vp *viper.Viper, err error) {
 
 func (n Nacos) GetTomlViper(data string) (vp *viper.Viper, err error) {
 	return n.GetViper(data, "toml")
-}
-
-func (n Nacos) GoroutineTest(i int) error {
-	time.Sleep(3 * time.Second)
-	fmt.Println("-----", i)
-	if i%2 == 0 {
-		return errors.New("err" + cast.ToString(i))
-	}
-	return nil
 }
