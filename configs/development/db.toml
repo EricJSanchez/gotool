@@ -1,0 +1,12 @@
+# 数据库服务器配置
+[db-scrm]
+driver        = "mysql"
+host          = "mysql.beta.techzgzb.cn"
+port          = 33306
+username      = "weixin-work-user"
+password      = "Mqe5ZRrW,G@a|IrH"
+database      = "weixin-work"
+charset       = "utf8mb4"
+max_conn      = 50
+max_idle_conn = 10
+ping          = true

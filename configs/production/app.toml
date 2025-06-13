@@ -1,0 +1,17 @@
+port    = 80
+allow_origins = "*"
+log_path = "/tmp/logs/php2go/"
+service_name = "php2go"
+
+[nacos]
+namespace_id            = ""
+addr                    = "nacos-headless.scrm.svc.cluster.local"
+scheme                  = "http"
+port                    = "8848"
+username                = "nacos"
+password                = "123456"
+timeout                 = 5000
+cache_dir               = "/tmp/nacos/cache"
+#接入的 Nacos命名格式：data id:group
+defaultDataId           = "php2go.toml"
+group_data_ids          = ["php2go.toml:php2go","database.toml:database"]
