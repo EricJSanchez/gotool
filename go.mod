@@ -1,17 +1,14 @@
-module github.com/EricJSanchez/php2go
+module github.com/EricJSanchez/gotool
 
-go 1.21.0
-
-toolchain go1.21.3
+go 1.18
 
 require (
 	github.com/nacos-group/nacos-sdk-go v1.1.5
-	github.com/spf13/cast v1.7.1
+	github.com/spf13/cast v1.9.2
 	github.com/spf13/viper v1.20.1
 )
 
 require (
-	github.com/EricJSanchez/gotool v0.0.0-20250613065621-c09aec94dc08 // indirect
 	github.com/aliyun/alibaba-cloud-sdk-go v1.61.18 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/fsnotify/fsnotify v1.8.0 // indirect

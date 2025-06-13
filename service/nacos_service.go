@@ -82,6 +82,7 @@ func (n *Nacos) InitClient(config map[string]interface{}) error {
 			n.NewInitConfig(tmpConf[0], tmpConf[1])
 		}
 	})
+	return nil
 }
 
 // NewInitConfig 初始化配置文件监听
