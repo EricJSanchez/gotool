@@ -18,6 +18,7 @@ func Elastic(names ...string) (client *elastic.Client) {
 
 	return
 }
+
 func EsToStruct[T any](result *elastic.SearchResult) (ret []T, err error) {
 	var typ *T
 	//遍历命中的数据，对数据进行类型断言，获取数据

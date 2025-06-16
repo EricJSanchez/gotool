@@ -3,9 +3,9 @@ package test
 import (
 	"context"
 	"fmt"
-	"gotool/pkg/environment"
-	"gotool/service"
-	"gotool/sys"
+	"github.com/EricJSanchez/gotool/pkg/environment"
+	"github.com/EricJSanchez/gotool/service"
+	"github.com/EricJSanchez/gotool/sys"
 	"testing"
 	"time"
 )

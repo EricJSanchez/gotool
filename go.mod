@@ -1,9 +1,11 @@
-module gotool
+module github.com/EricJSanchez/gotool
 
 go 1.18
 
 require (
 	github.com/nacos-group/nacos-sdk-go v1.0.9
+	github.com/olivere/elastic/v7 v7.0.26
+	github.com/redis/go-redis/v9 v9.1.0
 	github.com/spf13/cast v1.6.0
 	github.com/spf13/viper v1.3.2
 	gorm.io/driver/mysql v1.1.3
@@ -41,10 +43,8 @@ require (
 	github.com/mitchellh/mapstructure v1.1.2 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742 // indirect
-	github.com/olivere/elastic/v7 v7.0.26 // indirect
 	github.com/pelletier/go-toml v1.2.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/redis/go-redis/v9 v9.1.0 // indirect
 	github.com/spf13/afero v1.1.2 // indirect
 	github.com/spf13/jwalterweatherman v1.0.0 // indirect
 	github.com/spf13/pflag v1.0.3 // indirect
