@@ -1,8 +1,8 @@
 package sys
 
 import (
+	"github.com/EricJSanchez/gotool/pkg/environment"
 	"gorm.io/gorm"
-	"gotool/pkg/environment"
 )
 
 var gormManager = NewGormClientManager()

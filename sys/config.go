@@ -2,7 +2,7 @@ package sys
 
 import (
 	"fmt"
-	"gotool/pkg/environment"
+	"github.com/EricJSanchez/gotool/pkg/environment"
 	"os"
 	"sync"
 )
