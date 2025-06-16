@@ -6,6 +6,7 @@ require (
 	github.com/nacos-group/nacos-sdk-go v1.0.9
 	github.com/olivere/elastic/v7 v7.0.26
 	github.com/redis/go-redis/v9 v9.1.0
+	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/cast v1.6.0
 	github.com/spf13/viper v1.3.2
 	gorm.io/driver/mysql v1.1.3
@@ -36,6 +37,7 @@ require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.6 // indirect
+	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/lestrrat/go-file-rotatelogs v0.0.0-20180223000712-d3151e2a480f // indirect
 	github.com/lestrrat/go-strftime v0.0.0-20180220042222-ba3bf9c1d042 // indirect
 	github.com/magiconair/properties v1.8.0 // indirect

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/EricJSanchez/gotool/pkg/environment"
 	"os"
+	"runtime"
 	"sync"
 )
 import "github.com/spf13/viper"
@@ -77,4 +78,11 @@ func ResetCfgKey(file string) {
 	if _, ok := config.vipers[file]; ok {
 		delete(config.vipers, file)
 	}
+}
+
+func GetRunFuncName() string {
+	pc := make([]uintptr, 1)
+	runtime.Callers(2, pc)
+	f := runtime.FuncForPC(pc[0])
+	return f.Name()
 }

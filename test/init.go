@@ -12,8 +12,10 @@ func init() {
 	service.Register()
 	//初始化 config
 	sys.InitConfig("../configs/")
+
+	sys.InitLog()
 	//nacos初始化
-	_ = service.Factory.Nacos.InitClient(sys.Cfg("app").GetStringMap("nacos"))
+	_ = service.Factory.Nacos.InitClient()
 	//nacos 注册服务
 	//defer service.Factory.Nacos.DeRegister()
 	//service.Factory.Nacos.Register()

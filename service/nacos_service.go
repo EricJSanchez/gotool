@@ -27,23 +27,23 @@ type Nacos struct {
 }
 
 // InitClient 初始化
-func (n *Nacos) InitClient(config map[string]interface{}) error {
+func (n *Nacos) InitClient() error {
 	onceNacos.Do(func() {
 		clientConfig := *constant.NewClientConfig(
-			constant.WithNamespaceId(config["namespace_id"].(string)),
-			constant.WithTimeoutMs(uint64(config["timeout"].(int64))),
+			constant.WithNamespaceId(sys.Cfg("app").GetString("nacos.namespace_id")),
+			constant.WithTimeoutMs(uint64(sys.Cfg("app").GetInt("nacos.timeout"))),
 			constant.WithNotLoadCacheAtStart(true),
-			constant.WithLogDir(config["log_dir"].(string)),
-			constant.WithCacheDir(config["cache_dir"].(string)),
-			constant.WithUsername(config["username"].(string)),
-			constant.WithPassword(config["password"].(string)),
+			constant.WithLogDir(sys.Cfg("app").GetString("log_path")+"nacos/cache"),
+			constant.WithCacheDir(sys.Cfg("app").GetString("log_path")+"nacos/logs"),
+			constant.WithUsername(sys.Cfg("app").GetString("nacos.username")),
+			constant.WithPassword(sys.Cfg("app").GetString("nacos.password")),
 		)
 		serverConfigs := []constant.ServerConfig{
 			{
-				IpAddr:      config["addr"].(string),
+				IpAddr:      sys.Cfg("app").GetString("nacos.addr"),
 				ContextPath: "/nacos",
-				Port:        uint64(config["port"].(int64)),
-				Scheme:      config["scheme"].(string),
+				Port:        uint64(sys.Cfg("app").GetInt("nacos.port")),
+				Scheme:      sys.Cfg("app").GetString("nacos.scheme"),
 			},
 		}
 		var err error
@@ -59,7 +59,7 @@ func (n *Nacos) InitClient(config map[string]interface{}) error {
 		}
 
 		// 下面开始初始化配置文件监听，根据data_id和group
-		ns := cast.ToStringSlice(config["group_data_ids"].([]interface{}))
+		ns := sys.Cfg("app").GetStringSlice("nacos.group_data_ids")
 		sys.NacosConfig = make(map[string]string, len(ns))
 		n.ConfigClient = make(map[string]config_client.IConfigClient, len(ns))
 		for _, nv := range ns {

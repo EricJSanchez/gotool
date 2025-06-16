@@ -61,7 +61,9 @@ func TestLib(t *testing.T) {
 	sys.Pr(nacosAddr)
 
 	sys.Pr(sys.Nacos().GetString("SsoUrl"))
-
+	log := sys.Log()
+	log.WithField("a1111", "b22222").Info("0-------------------0", sys.Nacos().GetString("SsoUrl"))
+	log.WithField("a3333", "b4444").Error("1-------------------0", sys.Nacos().GetString("SsoUrl"))
 	var str string
 	sys.Gorm().Table("ww_staff").Where("id > ?", 1).Limit(1).Select("userid").Find(&str)
 	sys.Pr(str)
@@ -70,7 +72,7 @@ func TestLib(t *testing.T) {
 	sys.Pr(rs)
 
 	result, err := sys.Elastic().Search().
-		Index("chat-message-***").
+		Index("chat-message-wwd384e73ed3cf5305").
 		Pretty(true).
 		From(0).
 		Size(2).
@@ -79,10 +81,10 @@ func TestLib(t *testing.T) {
 	if err == nil {
 		total := int(result.TotalHits())
 		res, _ := sys.EsToStruct[ChatMessage](result)
-		sys.Pr(res, total)
+		fmt.Println(total, res)
+		//sys.Log().Info("#################", res, total)
 	} else {
 		fmt.Println("es err", err)
 	}
-
 	return
 }
