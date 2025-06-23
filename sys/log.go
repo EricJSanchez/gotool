@@ -20,22 +20,22 @@ type lineHook struct {
 	levels []logrus.Level
 }
 
-var stdoutLog *logrus.Logger
+var StdoutLog *logrus.Logger
 
 func InitLog() *logrus.Logger {
-	stdoutLog = logrus.New()
+	StdoutLog = logrus.New()
 	// 添加错误级别高于等于Error的日志HOOK
-	stdoutLog.AddHook(new(lineHook))
+	StdoutLog.AddHook(new(lineHook))
 	// 设置格式为JSON
-	stdoutLog.SetFormatter(&logrus.JSONFormatter{})
+	StdoutLog.SetFormatter(&logrus.JSONFormatter{})
 
 	//调试写入文件
-	stdoutLog.AddHook(new(LogHook))
-	return stdoutLog
+	StdoutLog.AddHook(new(LogHook))
+	return StdoutLog
 }
 
 func Log() *logrus.Logger {
-	return stdoutLog
+	return StdoutLog
 }
 
 // Levels implement levels
