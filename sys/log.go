@@ -22,7 +22,7 @@ type lineHook struct {
 
 var stdoutLog *logrus.Logger
 
-func InitLog() {
+func InitLog() *logrus.Logger {
 	stdoutLog = logrus.New()
 	// 添加错误级别高于等于Error的日志HOOK
 	stdoutLog.AddHook(new(lineHook))
@@ -31,7 +31,7 @@ func InitLog() {
 
 	//调试写入文件
 	stdoutLog.AddHook(new(LogHook))
-
+	return stdoutLog
 }
 
 func Log() *logrus.Logger {

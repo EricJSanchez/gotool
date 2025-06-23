@@ -18,6 +18,7 @@ type GormClientManager struct {
 }
 
 func NewGormClientManager() *GormClientManager {
+	fmt.Println("-------------------NewGormClientManager-------------------")
 	return &GormClientManager{
 		rw:         &sync.RWMutex{},
 		clients:    make(map[string]*gorm.DB),

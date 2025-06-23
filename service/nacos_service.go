@@ -35,8 +35,8 @@ func (n *Nacos) InitClient() error {
 			constant.WithNotLoadCacheAtStart(true),
 			constant.WithLogDir(sys.Cfg("app").GetString("log_path")+"nacos/cache"),
 			constant.WithCacheDir(sys.Cfg("app").GetString("log_path")+"nacos/logs"),
-			constant.WithUsername(sys.Cfg("app").GetString("nacos.username")),
-			constant.WithPassword(sys.Cfg("app").GetString("nacos.password")),
+			//constant.WithUsername(sys.Cfg("app").GetString("nacos.username")),
+			//constant.WithPassword(sys.Cfg("app").GetString("nacos.password")),
 		)
 		serverConfigs := []constant.ServerConfig{
 			{

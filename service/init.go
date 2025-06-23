@@ -10,9 +10,9 @@ var (
 	Factory *List
 )
 
-func Register() {
+func Register() *List {
 	Factory = &List{
 		Nacos: new(Nacos),
 	}
-	return
+	return Factory
 }

@@ -61,7 +61,7 @@ func TestLib(t *testing.T) {
 	sys.Pr(nacosAddr)
 
 	sys.Pr(sys.Nacos().GetString("SsoUrl"))
-	log := sys.Log()
+	//l :=
 	log.WithField("a1111", "b22222").Info("0-------------------0", sys.Nacos().GetString("SsoUrl"))
 	log.WithField("a3333", "b4444").Error("1-------------------0", sys.Nacos().GetString("SsoUrl"))
 	var str string
@@ -86,5 +86,6 @@ func TestLib(t *testing.T) {
 	} else {
 		fmt.Println("es err", err)
 	}
+	select {}
 	return
 }
