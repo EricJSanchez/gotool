@@ -7,7 +7,7 @@ require (
 	github.com/olivere/elastic/v7 v7.0.26
 	github.com/redis/go-redis/v9 v9.1.0
 	github.com/sirupsen/logrus v1.4.2
-	github.com/spf13/cast v1.6.0
+	github.com/spf13/cast v1.5.0
 	github.com/spf13/viper v1.3.2
 	gorm.io/driver/mysql v1.1.3
 	gorm.io/driver/postgres v1.0.8
