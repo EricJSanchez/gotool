@@ -1,6 +1,7 @@
 package sys
 
 import (
+	"github.com/EricJSanchez/gotool/pkg/environment"
 	"github.com/olivere/elastic/v7"
 	"reflect"
 )
@@ -13,7 +14,15 @@ func Elastic(names ...string) (client *elastic.Client) {
 	if len(names) > 0 {
 		name = names[0]
 	}
-	config := Nacos("database.toml").GetStringMap(name)
+	var config map[string]interface{}
+	if environment.Is(environment.Development) {
+		config = Cfg("db").GetStringMap(name)
+		if len(config) == 0 {
+			config = Nacos("database.toml").GetStringMap(name)
+		}
+	} else {
+		config = Nacos("database.toml").GetStringMap(name)
+	}
 	client = esManager.Get(name, config)
 
 	return
