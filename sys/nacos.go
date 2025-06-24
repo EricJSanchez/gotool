@@ -20,12 +20,12 @@ func Nacos(files ...string) *viper.Viper {
 		return nil
 	}
 	if _, ok := NacosConfig[file]; !ok {
-		fmt.Println("read nacos config file err 0")
+		fmt.Println("read nacos configLocal file err 0")
 		return nil
 	}
-	config.Lock()
-	defer config.Unlock()
-	if cfg, ok := config.vipers[file]; ok {
+	configLocal.Lock()
+	defer configLocal.Unlock()
+	if cfg, ok := configLocal.vipers[file]; ok {
 		return cfg
 	}
 	// 读取基础配置
@@ -33,10 +33,10 @@ func Nacos(files ...string) *viper.Viper {
 	baseConfig.SetConfigType("toml")
 	err := baseConfig.ReadConfig(bytes.NewBuffer([]byte(NacosConfig[file])))
 	if err != nil {
-		fmt.Println("read nacos config err 1")
+		fmt.Println("read nacos configLocal err 1")
 		return nil
 	} else {
-		config.vipers[file] = baseConfig
+		configLocal.vipers[file] = baseConfig
 		return baseConfig
 	}
 }

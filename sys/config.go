@@ -15,13 +15,13 @@ type configuration struct {
 	sync.Mutex
 }
 
-var config *configuration
+var configLocal *configuration
 
 func InitConfig(configPath ...string) {
 	if len(configPath) == 0 {
 		configPath = []string{"../../configs", "configs", "../configs"}
 	}
-	config = &configuration{
+	configLocal = &configuration{
 		paths:  configPath,
 		vipers: make(map[string]*viper.Viper),
 	}
@@ -40,14 +40,14 @@ func (c *configuration) getConfigFile(file string, env environment.Env) string {
 }
 
 func Cfg(file string) *viper.Viper {
-	if cfg, ok := config.vipers[file]; ok {
+	if cfg, ok := configLocal.vipers[file]; ok {
 		return cfg
 	}
-	config.Lock()
-	defer config.Unlock()
+	configLocal.Lock()
+	defer configLocal.Unlock()
 	// 读取基础配置
 	baseConfig := viper.New()
-	baseConfigFile := config.getConfigFile(file, Env())
+	baseConfigFile := configLocal.getConfigFile(file, Env())
 	baseConfig.SetConfigFile(baseConfigFile)
 	err := baseConfig.ReadInConfig()
 	if err != nil {
@@ -59,7 +59,7 @@ func Cfg(file string) *viper.Viper {
 	for k, v := range baseConfig.AllSettings() {
 		envConfig.SetDefault(k, v)
 	}
-	envConfigFile := config.getConfigFile(file, Env())
+	envConfigFile := configLocal.getConfigFile(file, Env())
 	if envConfigFile != "" {
 		envConfig.SetConfigFile(envConfigFile)
 		err = envConfig.ReadInConfig()
@@ -68,15 +68,15 @@ func Cfg(file string) *viper.Viper {
 			return nil
 		}
 	}
-	config.vipers[file] = envConfig
+	configLocal.vipers[file] = envConfig
 	return envConfig
 }
 
 func ResetCfgKey(file string) {
-	config.Lock()
-	defer config.Unlock()
-	if _, ok := config.vipers[file]; ok {
-		delete(config.vipers, file)
+	configLocal.Lock()
+	defer configLocal.Unlock()
+	if _, ok := configLocal.vipers[file]; ok {
+		delete(configLocal.vipers, file)
 	}
 }
 

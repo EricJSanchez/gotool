@@ -1,6 +1,8 @@
 package sys
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 )
@@ -22,4 +24,10 @@ func Pr(val ...interface{}) {
 		bytes, _ := json.MarshalIndent(val, "", "    ")
 		fmt.Printf("%T : %s-\n", val, bytes)
 	}
+}
+
+func Md5(str string) string {
+	h := md5.New()
+	h.Write([]byte(str))
+	return hex.EncodeToString(h.Sum(nil))
 }

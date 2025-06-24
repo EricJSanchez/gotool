@@ -1,6 +1,7 @@
 package sys
 
 import (
+	"encoding/json"
 	"github.com/EricJSanchez/gotool/pkg/environment"
 	"github.com/olivere/elastic/v7"
 	"reflect"
@@ -23,8 +24,9 @@ func Elastic(names ...string) (client *elastic.Client) {
 	} else {
 		config = Nacos("database.toml").GetStringMap(name)
 	}
+	connectUniq, _ := json.Marshal(config)
+	name = name + Md5(string(connectUniq))
 	client = esManager.Get(name, config)
-
 	return
 }
 

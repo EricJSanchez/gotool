@@ -1,6 +1,7 @@
 package sys
 
 import (
+	"encoding/json"
 	"github.com/EricJSanchez/gotool/pkg/environment"
 	"github.com/redis/go-redis/v9"
 )
@@ -13,16 +14,18 @@ func Redis(names ...string) (client *redis.Client) {
 	if len(names) > 0 {
 		name = names[0]
 	}
-	var redisConfig map[string]interface{}
+	var config map[string]interface{}
 	if environment.Is(environment.Development) {
-		redisConfig = Cfg("db").GetStringMap(name)
-		if len(redisConfig) == 0 {
-			redisConfig = Nacos("database.toml").GetStringMap(name)
+		config = Cfg("db").GetStringMap(name)
+		if len(config) == 0 {
+			config = Nacos("database.toml").GetStringMap(name)
 		}
 	} else {
-		redisConfig = Nacos("database.toml").GetStringMap(name)
+		config = Nacos("database.toml").GetStringMap(name)
 	}
-	pool := redisManager.Get(name, redisConfig)
+	connectUniq, _ := json.Marshal(config)
+	name = name + Md5(string(connectUniq))
+	pool := redisManager.Get(name, config)
 	client = pool.pool
 	return
 }

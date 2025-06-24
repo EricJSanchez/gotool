@@ -1,6 +1,7 @@
 package sys
 
 import (
+	"encoding/json"
 	"github.com/EricJSanchez/gotool/pkg/environment"
 	"gorm.io/gorm"
 )
@@ -22,6 +23,8 @@ func Gorm(names ...string) (client *gorm.DB) {
 	} else {
 		config = Nacos("database.toml").GetStringMap(name)
 	}
+	connectUniq, _ := json.Marshal(config)
+	name = name + Md5(string(connectUniq))
 	client = gormManager.Get(name, config)
 	return
 }
