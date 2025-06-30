@@ -2,7 +2,7 @@ package sys
 
 import (
 	"encoding/json"
-	"github.com/EricJSanchez/gotool/pkg/environment"
+	"github.com/EricJSanchez/gotool/environment"
 	"gorm.io/gorm"
 )
 

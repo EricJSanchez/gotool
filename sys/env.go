@@ -1,6 +1,8 @@
 package sys
 
-import "github.com/EricJSanchez/gotool/pkg/environment"
+import (
+	"github.com/EricJSanchez/gotool/environment"
+)
 
 func Env() environment.Env {
 	return environment.Get()

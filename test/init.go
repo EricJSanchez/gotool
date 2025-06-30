@@ -1,7 +1,7 @@
 package test
 
 import (
-	"github.com/EricJSanchez/gotool/pkg/environment"
+	"github.com/EricJSanchez/gotool/environment"
 	"github.com/EricJSanchez/gotool/service"
 	"github.com/EricJSanchez/gotool/sys"
 	"github.com/sirupsen/logrus"
